@@ -101,4 +101,102 @@ void addStudent() {
         return;
     }
 
+    students.push_back(student);
+}
+
+void viewStudents() {
+    for (const auto& student : students) {
+        std::cout << "Name: " << student.firstname << " " << student.surname << ", Gender: " << student.gender
+                  << ", Age: " << student.age << ", Group: " << student.group << "\n";
+        std::cout << "Activities: ";
+        for (const auto& activity : student.activities) {
+            std::cout << activity << " ";
+        }
+        std::cout << "\n";
+    }
+}
+
+void viewStudentsByGroup() {
+    std::map<int, std::vector<Student>> grouped_students;
+    for (const auto& student : students) {
+        grouped_students[student.group].push_back(student);
+    }
+
+    for (const auto& group : grouped_students) {
+        std::cout << "Group " << group.first << ":\n";
+        for (const auto& student : group.second) {
+            std::cout << "Name: " << student.firstname << " " << student.surname << ", Gender: " << student.gender
+                      << ", Age: " << student.age << "\n";
+            std::cout << "Activities: ";
+            for (const auto& activity : student.activities) {
+                std::cout << activity << " ";
+            }
+            std::cout << "\n";
+        }
+    }
+}
+
+void viewActivities(const std::vector<Activity>& activities) {
+    for (const auto& activity : activities) {
+        std::cout << "Activity: " << activity.name << ", Capacity: " << activity.members.size() << "/" << activity.max_capacity << "\n";
+    }
+}
+
+void saveToFile() {
+    std::ofstream file("students.csv");
+    file << "Firstname,Surname,Gender,Age,Group,Activities\n";
+    for (const auto& student : students) {
+        file << student.firstname << "," << student.surname << "," << student.gender << "," << student.age << "," << student.group << ",";
+        for (const auto& activity : student.activities) {
+            file << activity << " ";
+        }
+        file << "\n";
+    }
+    file.close();
+    std::cout << "Data saved to students.csv\n";
+}
+
+int main() {
+    int choice;
+    do {
+        std::cout << "Menu:\n";
+        std::cout << "1. Add Student\n";
+        std::cout << "2. View Students\n";
+        std::cout << "3. View Clubs/Societies\n";
+        std::cout << "4. View Sports\n";
+        std::cout << "5. View Grouped Students\n";
+        std::cout << "6. Save all Files\n";
+        std::cout << "7. Exit\n";
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                viewStudents();
+                break;
+            case 3:
+                viewActivities(clubs);
+                break;
+            case 4:
+                viewActivities(sports);
+                break;
+            case 5:
+                viewStudentsByGroup();
+                break;
+            case 6:
+                saveToFile();
+                break;
+            case 7:
+                std::cout << "Exiting...\n";
+                break;
+            default:
+                std::cout << "Invalid choice. Try again.\n";
+        }
+    } while (choice != 7);
+
+    return 0;
+}
+
 
