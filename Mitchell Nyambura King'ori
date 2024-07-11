@@ -168,8 +168,8 @@ int main() {
         std::cout << "6. Save all Files\n";
         std::cout << "7. Exit\n";
         std::cin >> choice;
+switch (choice) {
 
-        switch (choice) {
             case 1:
                 addStudent();
                 break;
